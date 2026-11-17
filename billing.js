@@ -10,20 +10,20 @@ const receipt = document.querySelector('.bill-receipt');
 const rates = { turbo: 7, allNighter: 6, chill: 5 };
 const modeNames = { turbo: 'Turbo mode', allNighter: 'All-nighter pace', chill: "Procrastinator's chill" };
 const deliveryFees = { file: 0, notebook: 30, handover: 15 };
-const deliveryNames = { file: 'Digital file', notebook: 'Notebook', handover: "I'll give it to you" };
+const deliveryNames = { file: 'Question file', notebook: 'Notebook', handover: "I'll give it to you" };
 
 pageLabel.textContent = pageCount ? `${pageCount} page${pageCount === 1 ? '' : 's'}` : 'No PDF session found';
 fileLabel.textContent = billingData?.fileName || 'Upload a PDF first';
 
 const calculateBill = () => {
   const mode = form.elements.mode.value;
-  const delivery = form.elements.delivery.value;
+  const deliveries = [...form.querySelectorAll('input[name="delivery"]:checked')].map(input => input.value);
   const base = pageCount * rates[mode];
-  const extra = deliveryFees[delivery];
-  const amount = base + extra;
+  const extra = deliveries.reduce((sum, delivery) => sum + deliveryFees[delivery], 0);
+  const amount = base + extra + (deliveries.includes('file') ? 70 : 0);
   total.textContent = `₹${amount}`;
-  breakdown.innerHTML = `<span>${pageCount} pages × ₹${rates[mode]} (${modeNames[mode]}) <b>₹${base}</b></span><span>${deliveryNames[delivery]} <b>+₹${extra}</b></span>`;
-  sessionStorage.setItem('notedSirOrder', JSON.stringify({ ...billingData, mode, modeName: modeNames[mode], rate: rates[mode], delivery, deliveryName: deliveryNames[delivery], deliveryFee: extra, total: amount }));
+  breakdown.innerHTML = `<span>${pageCount} pages × ₹${rates[mode]} (${modeNames[mode]}) <b>₹${base}</b></span><span>${deliveries.map(delivery => deliveryNames[delivery]).join(', ')} <b>+₹${extra + (deliveries.includes('file') ? 70 : 0)}</b></span>`;
+  sessionStorage.setItem('notedSirOrder', JSON.stringify({ ...billingData, mode, modeName: modeNames[mode], rate: rates[mode], deliveries, deliveryNames: deliveries.map(delivery => deliveryNames[delivery]), deliveryFee: extra + (deliveries.includes('file') ? 70 : 0), total: amount }));
 };
 
 form.addEventListener('change', calculateBill);

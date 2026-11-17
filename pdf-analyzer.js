@@ -28,11 +28,11 @@ const renderResult = (file, result) => {
     <div><b>${result.maxWords}</b><span>max words/page</span></div>
     <div><b>${failed ? 'Review' : 'Pass'}</b><span>screening result</span></div>`;
   analyzerPages.innerHTML = result.pageResults.map(page => {
-    const pageFailed = page.words > 250 || page.unreadable;
-    return `<li class="${pageFailed ? 'page-fail' : 'page-pass'}"><span>Page ${page.number}</span><b>${page.words} words</b><small>${page.unreadable ? 'Unreadable or image-only' : page.words > 250 ? 'Over 250-word limit' : 'Within limit'}</small></li>`;
+    const pageFailed = page.words > 350 || page.unreadable;
+    return `<li class="${pageFailed ? 'page-fail' : 'page-pass'}"><span>Page ${page.number}</span><b>${page.words} words</b><small>${page.unreadable ? 'Unreadable or image-only' : page.words > 350 ? 'Over 350-word limit' : 'Within limit'}</small></li>`;
   }).join('');
   const warnings = [];
-  if (result.pagesOverLimit.length) warnings.push(`Declined: pages ${result.pagesOverLimit.join(', ')} exceed 250 words.`);
+  if (result.pagesOverLimit.length) warnings.push(`Declined: pages ${result.pagesOverLimit.join(', ')} exceed 350 words.`);
   if (result.invalidPages.length) warnings.push(`Review required: pages ${result.invalidPages.join(', ')} contain no readable text.`);
   if (result.suspicious) warnings.push('Safety warning: the PDF contains active JavaScript or automatic actions. Do not open it outside a trusted viewer.');
   if (!warnings.length) warnings.push(`${file.name} passed the local screening checks.`);
@@ -61,7 +61,7 @@ const analyzePdf = async file => {
     const words = wordCount(text);
     pageResults.push({ number, words, unreadable: !text });
   }
-  const pagesOverLimit = pageResults.filter(page => page.words > 250).map(page => page.number);
+  const pagesOverLimit = pageResults.filter(page => page.words > 350).map(page => page.number);
   const invalidPages = pageResults.filter(page => page.unreadable).map(page => page.number);
   renderResult(file, { pageCount: pdf.numPages, totalWords: pageResults.reduce((sum, page) => sum + page.words, 0), maxWords: Math.max(0, ...pageResults.map(page => page.words)), pageResults, pagesOverLimit, invalidPages, suspicious });
 };
