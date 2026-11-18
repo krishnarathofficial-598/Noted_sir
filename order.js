@@ -1,4 +1,5 @@
 const order = JSON.parse(sessionStorage.getItem('notedSirOrder') || 'null');
+if (order && !order.deliveryName) order.deliveryName = 'offline';
 const summary = document.querySelector('#order-summary');
 const total = document.querySelector('#order-total');
 const form = document.querySelector('#order-form');
@@ -29,7 +30,7 @@ form.addEventListener('submit', event => {
         const bytes = new Uint8Array(await fileRequest.result.arrayBuffer());
         let binary = '';
         bytes.forEach(byte => { binary += String.fromCharCode(byte); });
-        const payload = { ...order, ...details, payment: 'Cash on delivery', pdfBase64: btoa(binary) };
+        const payload = { ...order, ...details, deliveryName: 'offline', payment: 'Cash on delivery', pdfBase64: btoa(binary) };
         const response = await fetch('/api/send-order', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
         const result = await response.json();
         if (!response.ok) throw new Error(result.error || 'The order email could not be sent.');

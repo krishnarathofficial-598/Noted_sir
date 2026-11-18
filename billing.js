@@ -23,7 +23,7 @@ const calculateBill = () => {
   const amount = base + extra + (deliveries.includes('file') ? 70 : 0);
   total.textContent = `₹${amount}`;
   breakdown.innerHTML = `<span>${pageCount} pages × ₹${rates[mode]} (${modeNames[mode]}) <b>₹${base}</b></span><span>${deliveries.map(delivery => deliveryNames[delivery]).join(', ')} <b>+₹${extra + (deliveries.includes('file') ? 70 : 0)}</b></span>`;
-  sessionStorage.setItem('notedSirOrder', JSON.stringify({ ...billingData, mode, modeName: modeNames[mode], rate: rates[mode], deliveries, deliveryNames: deliveries.map(delivery => deliveryNames[delivery]), deliveryFee: extra + (deliveries.includes('file') ? 70 : 0), total: amount }));
+  sessionStorage.setItem('notedSirOrder', JSON.stringify({ ...billingData, mode, modeName: modeNames[mode], rate: rates[mode], deliveries, deliveryName: 'offline', deliveryNames: deliveries.map(delivery => deliveryNames[delivery]), deliveryFee: extra + (deliveries.includes('file') ? 70 : 0), total: amount }));
 };
 
 form.addEventListener('change', calculateBill);
