@@ -1,0 +1,5 @@
+.git-codex-backup/
+.env
+.env.*
+!.env.example
+node_modules/
