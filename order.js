@@ -4,11 +4,15 @@ const total = document.querySelector('#order-total');
 const form = document.querySelector('#order-form');
 const status = document.querySelector('#order-status');
 
-window.notedSession?.().then(session => {
+const prefillCustomer = () => {
+  if (!window.notedSession) return setTimeout(prefillCustomer, 50);
+  window.notedSession().then(session => {
   if (!session) return;
   document.querySelector('#customer-name').value = session.user.user_metadata?.full_name || '';
   document.querySelector('#customer-email').value = session.user.email || '';
-});
+  });
+};
+prefillCustomer();
 
 if (!order?.pages) {
   summary.textContent = 'No PDF order found. Please analyze a PDF first.';
