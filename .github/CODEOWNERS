@@ -1,0 +1,11 @@
+# Require the repository owner to review every change.
+* @krishnarathofficial-598
+
+# Security-sensitive files require explicit owner review.
+/.github/ @krishnarathofficial-598
+/api/ @krishnarathofficial-598
+/.env.example @krishnarathofficial-598
+auth.js @krishnarathofficial-598
+login/ @krishnarathofficial-598
+order.js @krishnarathofficial-598
+pdf-analyzer.js @krishnarathofficial-598
