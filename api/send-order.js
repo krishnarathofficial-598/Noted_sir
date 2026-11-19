@@ -4,7 +4,7 @@ const json = (body, statusCode = 200, origin = allowedOrigin) => ({ statusCode, 
 const required = ['name', 'email', 'mobile', 'address', 'fileName', 'pages', 'modeName', 'deliveryName', 'total', 'pdfBase64'];
 const escapeHtml = value => String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
 const rates = { 'Turbo mode': 7, 'All-nighter pace': 6, "Procrastinator's chill": 5 };
-const deliveryFees = { file: 70, notebook: 30, handover: 15 };
+const deliveryFees = { file: 70, notebook: 30, handover: 15, a4: 10 };
 
 module.exports = async (request, response) => {
   const origin = request.headers.origin;
@@ -22,6 +22,7 @@ module.exports = async (request, response) => {
   if (!Number.isInteger(Number(order.pages)) || Number(order.pages) < 1 || Number(order.pages) > 1000) return response.status(400).json({ error: 'Invalid page count.' });
   if (!rates[order.modeName]) return response.status(400).json({ error: 'Invalid work mode.' });
   const deliveries = Array.isArray(order.deliveries) ? order.deliveries : [];
+  if (deliveries.length !== 1 || !deliveryFees[deliveries[0]]) return response.status(400).json({ error: 'Choose exactly one delivery option.' });
   const deliveryTotal = deliveries.reduce((sum, item) => sum + (deliveryFees[item] || 0), 0);
   const expectedTotal = Number(order.pages) * rates[order.modeName] + deliveryTotal;
   if (!Number.isFinite(Number(order.total)) || Number(order.total) !== expectedTotal) return response.status(400).json({ error: 'Order total could not be verified.' });
