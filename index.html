@@ -45,6 +45,11 @@
       </div>
     </section>
 
+    <section class="solver-panel" id="study-solver" aria-label="AI PDF study solver">
+      <div class="solver-copy"><span class="eyebrow">AI study solver</span><h3>Ask your PDF.<br><em>Learn the answer.</em></h3><p>Upload a question sheet or study PDF. The solver explains answers step by step and flags uncertainty when the document is unclear.</p></div>
+      <form id="study-solver-form" class="solver-form"><label for="study-pdf">Choose a PDF</label><input id="study-pdf" name="pdf" type="file" accept="application/pdf,.pdf" required><label for="study-question">What should I solve? <span>(optional)</span></label><textarea id="study-question" name="question" rows="3" placeholder="For example: Solve question 3 and explain the method."></textarea><button class="primary-btn" type="submit">Analyze and explain <span>↗</span></button><p class="solver-note">For learning and revision. Verify important answers with your teacher or textbook.</p><div id="study-solver-status" class="solver-status" role="status" aria-live="polite"></div><div id="study-solver-answer" class="solver-answer" hidden></div></form>
+    </section>
+
     <section class="post-showcase context-post" id="pyqs" aria-label="PYQs section"><div class="post-intro"><span class="eyebrow">02 / PYQs section</span><h3>Practice with<br>purpose.</h3><p>Past questions, patterns, and revision prompts in one focused place.</p></div><article class="post-card"><img src="images for posts/post 3g.png" alt="Past questions and revision study post"><div class="post-caption"><span class="card-label">Post 03</span><h4>Let the practice reveal what matters.</h4></div></article></section>
     <section class="content-grid resource-sections" id="e-notes" aria-label="E-notes section">
       <div class="section-heading"><span class="eyebrow"></span><h3>E-notes/PYQs  section.</h3><p></p></div>
@@ -63,6 +68,6 @@
     <section class="quote-band"><div class="quote-mark">“</div><blockquote>Good notes quietly plant the seeds of lasting wisdom;<br><em class="espresso-line"> every focused session makes the next one lighter.</em></blockquote><span class="quote-source">— Noted_sir MEANS ZERO STRESS</span></section>
   </main>
   <footer class="footer"><a class="brand" href="index.html#top"><span class="brand-mark"><img src="1.png" alt="Noted_sir logo"></span><span>Noted_sir</span></a><span class="footer-note">Built for calmer study sessions, useful references, and steady progress.</span><div class="footer-links"><a href="index.html#e-notes">E-notes</a><a href="index.html#handwritten-notes">Handwritten notes</a><a href="index.html#pyqs">PYQs</a></div></footer>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="auth.js"></script><script src="app.js"></script><script>document.querySelectorAll('.post-card').forEach((post, index) => { post.style.setProperty('--post-delay', `${index * 90}ms`); }); const postObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('post-visible'); postObserver.unobserve(entry.target); } }), { threshold: 0.28 }); document.querySelectorAll('.post-card').forEach(post => postObserver.observe(post));</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="auth.js"></script><script src="app.js"></script><script src="study-solver.js"></script><script>document.querySelectorAll('.post-card').forEach((post, index) => { post.style.setProperty('--post-delay', `${index * 90}ms`); }); const postObserver = new IntersectionObserver(entries => entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('post-visible'); postObserver.unobserve(entry.target); } }), { threshold: 0.28 }); document.querySelectorAll('.post-card').forEach(post => postObserver.observe(post));</script>
 </body>
 </html>
